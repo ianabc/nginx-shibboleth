@@ -38,7 +38,7 @@ jobs:
               distribution: centos-7
 
         - name: Upload artifact
-          uses: actions/upload-artifact@v1.0.0
+          uses: actions/upload-artifact@v1.1.1
           with:
               # Artifact name
               name: Source RPM
