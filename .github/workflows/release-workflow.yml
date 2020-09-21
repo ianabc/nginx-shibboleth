@@ -35,7 +35,7 @@ jobs:
           id: rpm_build
           uses: naveenrajm7/rpmbuild@master
           with:
-              spec_file: "nginx-shibboleth.spec"
+              spec_file: "SPECS/nginx-shibboleth.spec"
 
         - name: Upload artifact
           uses: actions/upload-artifact@v1.0.0
