@@ -33,9 +33,7 @@ jobs:
             
         - name: build RPM package
           id: rpm_build
-          uses: robertdebock/rpmbuild-action@1.1.0
-          with:
-              distribution: centos-7
+          uses: ianabc/centos-7-an-rpm:v0.1.1
 
         - name: Upload artifact
           uses: actions/upload-artifact@v1.0.0
