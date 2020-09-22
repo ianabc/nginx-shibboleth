@@ -35,17 +35,6 @@ jobs:
           id: rpm_build
           uses: ianabc/github-action-rpmbuild@v0.1.1
 
-        - name: Upload artifact
-          uses: actions/upload-artifact@v1.0.0
-          with:
-              # Artifact name
-              name: Source RPMs
-              # Directory containing files to upload
-              path: |
-                SRPMS/*.src.rpm
-                RPMS/noarch/*.rpm
-                RPMS/x86_64/*.rpm
-
         - name: Get Name of Release RPM
           run: |
             ARTIFACT_PATHNAME=$(ls /github/workspace/RPMS/x86_64/nginx-mod-http-shibboleth* | head -n 1)
