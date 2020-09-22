@@ -37,8 +37,9 @@ jobs:
 
         - name: Get Name of Release RPM
           run: |
-            ARTIFACT_PATHNAME=$(ls ${{ github.workspace }}/RPMS/x86_64/nginx-mod-http-shibboleth* | head -n 1)
+            ARTIFACT_PATHNAME=$(ls ${GITHUB_WORKDIR}/RPMS/x86_64/nginx-mod-http-shibboleth* | head -n 1)
             ARTIFACT_NAME=$(basename $ARTIFACT_PATHNAME)
+          echo "ARTIFACT_PATHNAME: ${ARTIFACT_PATHNAME}"
             echo ::set-env name=ARTIFACT_NAME::${ARTIFACT_NAME}
             echo ::set-env name=ARTIFACT_NAME::${ARTIFACT_NAME}
 
