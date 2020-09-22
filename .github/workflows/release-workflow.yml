@@ -52,7 +52,6 @@ jobs:
                 ${{ github.workspace }}/SRPMS/*.src.rpm
                 ${{ github.workspace }}/noarch/*.rpm
                 ${{ github.workspace }}/x86_64/*.rpm
-                !${{ env.ARTIFACT_PATHNAME }}
 
         - name: Upload Release Asset
           id: upload-release-asset 
