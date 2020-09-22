@@ -28,6 +28,7 @@ jobs:
                 Changes in this Release
                 - Create RPM
                 - Upload Source RPM
+                - Additional RPMS are in the Action artifacts
               draft: false
               prerelease: false
             
@@ -50,8 +51,8 @@ jobs:
               # Directory containing files to upload
               path: |
                 ${{ github.workspace }}/SRPMS/*.src.rpm
-                ${{ github.workspace }}/noarch/*.rpm
-                ${{ github.workspace }}/x86_64/*.rpm
+                ${{ github.workspace }}/RPMS/noarch/*.rpm
+                ${{ github.workspace }}/RPMS/x86_64/*.rpm
 
         - name: Upload Release Asset
           id: upload-release-asset 
