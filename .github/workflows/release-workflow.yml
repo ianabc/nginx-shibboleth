@@ -42,9 +42,9 @@ jobs:
               name: Source RPMs
               # Directory containing files to upload
               path: |
-                /github/workspace/SRPMS/*.src.rpm
-                /github/workspace/RPMS/noarch/*.rpm
-                /github/workspace/RPMS/x86_64/*.rpm
+                SRPMS/*.src.rpm
+                RPMS/noarch/*.rpm
+                RPMS/x86_64/*.rpm
 
         - name: Get Name of Release RPM
           run: |
