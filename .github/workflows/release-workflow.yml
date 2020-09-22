@@ -39,12 +39,12 @@ jobs:
           uses: actions/upload-artifact@v1.0.0
           with:
               # Artifact name
-              name: Source RPM
+              name: Source RPMs
               # Directory containing files to upload
               path: |
                 /github/workspace/SRPMS/*.src.rpm
-                /github/workspace/noarch/*.rpm
-                /github/workspace/x86_64/*.rpm
+                /github/workspace/RPMS/noarch/*.rpm
+                /github/workspace/RPMS/x86_64/*.rpm
 
         - name: Get Name of Release RPM
           run: |
