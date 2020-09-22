@@ -16,51 +16,25 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
 
-        - name: Create Release
-          id: create_release
-          uses: actions/create-release@latest
-          env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-          with:
-              tag_name: ${{ github.ref }}
-              release_name: Release ${{ github.ref }}
-              body: |
-                Changes in this Release
-                - Create RPM
-                - Upload Source RPM
-                - Additional RPMS are in the Action artifacts
-              draft: false
-              prerelease: false
             
         - name: build RPM package
           id: rpm_build
           uses: ianabc/github-action-rpmbuild@v0.1.1
 
-        - name: Get Name of Release RPM
+        - name: Upload Release Assets
           run: |
-            ARTIFACT_PATHNAME=$(ls ${GITHUB_WORKSPACE}/RPMS/x86_64/nginx-mod-http-shibboleth* | head -n 1)
-            ARTIFACT_NAME=$(basename $ARTIFACT_PATHNAME)
-            echo ::set-env name=ARTIFACT_PATHNAME::${ARTIFACT_PATHNAME}
-            echo ::set-env name=ARTIFACT_NAME::${ARTIFACT_NAME}
-
-        - name: Upload artifacts
-          uses: actions/upload-artifact@v2
-          with:
-              # Artifact name
-              name: Additional RPMS
-              # Directory containing files to upload
-              path: |
-                ${{ github.workspace }}/SRPMS/*.src.rpm
-                ${{ github.workspace }}/RPMS/noarch/*.rpm
-                ${{ github.workspace }}/RPMS/x86_64/*.rpm
-
-        - name: Upload Release Asset
-          id: upload-release-asset 
-          uses: actions/upload-release-asset@v1
+              set -x
+              assets=()
+              for asset in ${GITHUB_WORKSPACE}/SRPMS/*.src.rpm; do
+                  assets+=("-a" "${asset}")
+              done
+              for asset in ${GITHUB_WORKSPACE}/RPMS/noarch/*.rpm; do
+                  assets+=("-a" "${asset}")
+              done
+              for asset in ${GITHUB_WORKSPACE}/RPMS/x86_64/*.rpm; do
+                  assets+=("-a" "${asset}")
+              done
+              tag_name="${GITHUB_REF##*/}"
+              hub release create "${assets[@]}" -m "${tag_name}" "${tag_name}"
           env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          with:
-              upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-              asset_path: ${{ env.ARTIFACT_PATHNAME }}
-              asset_name: ${{ env.ARTIFACT_NAME }}
-              asset_content_type: application/x-rpm
